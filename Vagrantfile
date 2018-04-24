@@ -13,6 +13,15 @@ Vagrant.configure(2) do |config|
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
   config.vm.box = "camper"
+    # define this box so Vagrant doesn't call it "default"
+    config.vm.define "camper"
+
+    # Hostname for virtual machine
+    config.vm.hostname = "camper.vagrant.dev"
+
+    # How long to wait for machine to boot (in seconds)
+    config.vm.boot_timeout = 500
+
 
   # The url from where the 'config.vm.box' box will be fetched if it
   # doesn't already exist on the user's system.
@@ -35,6 +44,26 @@ Vagrant.configure(2) do |config|
   config.vm.network "forwarded_port", guest: 8986, host: 8986, auto_correct: true
   config.vm.network "forwarded_port", guest: 3000, host: 3000, auto_correct: true
 
+    # If a port collision occurs (e.g. port 8080 on local machine is in use),
+    # then tell Vagrant to use the next available port between 8081 and 8100
+    config.vm.usable_port_range = 8081..8100
+
+    # BEGIN Landrush (https://github.com/phinze/landrush) configuration
+    # This section will only be triggered if you have installed "landrush"
+    #     vagrant plugin install landrush
+    if Vagrant.has_plugin?('landrush')
+        config.landrush.enable
+        config.landrush.tld = 'vagrant.dev'
+
+        # let's use the Google free DNS
+        config.landrush.upstream '8.8.8.8'
+        config.landrush.guest_redirect_dns = false
+    end
+    # END Landrush configuration
+
+
+
+
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
   # config.vm.network "private_network", ip: "192.168.33.10"
@@ -44,9 +73,6 @@ Vagrant.configure(2) do |config|
   # your network.
   # config.vm.network "public_network"
   
-  # Set the VM hostname
-  config.vm.hostname = "camper"
-
   # Share an additional folder to the guest VM. The first argument is
   # the path on the host to the actual folder. The second argument is
   # the path on the guest to mount the folder. And the optional third
