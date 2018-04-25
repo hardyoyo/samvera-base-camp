@@ -15,4 +15,12 @@ if [ "$(gem search -i tmuxinator)" = "false" ]; then
   echo "... tmuxinator installed!"
 fi
 
+# set up tmuxinator
+mkdir /home/vagrant/.tmuxinator
+
+if [ -f "/vagrant/config/dotfiles/tmuxinator-camper.yml" ]; then
+    echo "copying the camper project config for tmuxinator"
+    cp /vagrant/config/dotfiles/tmuxinator-camper.yml /home/vagrant/.tmuxinator/camper.yml
+fi
+
 exit 0

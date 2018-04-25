@@ -46,18 +46,6 @@ echo "installing notes gem"
 gem install notes
 #git config --global alias.n '!git ls-files | xargs notes'
 
-echo "installing tmuxinator gem"
-gem install tmuxinator
-
-# set up tmuxinator
-mkdir /home/vagrant/.tmuxinator
-
-if [ -f "/vagrant/config/dotfiles/tmuxinator-camper.yml" ]; then
-    echo "copying the camper project config for tmuxinator"
-    cp /vagrant/config/dotfiles/tmuxinator-camper.yml /home/vagrant/.tmuxinator/camper.yml
-fi
-
-
 # BASH history transplant (curse these lazy fingers)
 # if [ -f "/vagrant/config/dotfiles/bash_history" ]; then
 #     echo "transplanting BASH history file"
