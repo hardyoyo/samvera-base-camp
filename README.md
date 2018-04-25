@@ -30,6 +30,6 @@ from the root of this repository.
 I've also added [Tmuxinator](https://github.com/tmuxinator/tmuxinator) and a simple project config for it to make the camper experience more enjoyable. To use it, after the VM is up and you've run `vagrant ssh` to log in to the machine, you can run:
 
 ```
-tmuxinator camper
+tmuxinator camper start
 ```
 which will launch Rails, solr_wrapper and fedora_wrapper in different panes, and a second layout/window for coding. New to Tmux? You might [glance at this introduction](https://www.sitepoint.com/tmux-a-simple-start/) to get your bearings.
