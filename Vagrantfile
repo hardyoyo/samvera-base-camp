@@ -88,9 +88,11 @@ Vagrant.configure(2) do |config|
     # vb.gui = true
     #
     # Use VBoxManage to customize the VM. For example to change memory:
-    vb.customize ["modifyvm", :id, "--memory", "2046"]
+    vb.customize ["modifyvm", :id, "--memory", "1024"]
+    vb.customize ["modifyvm", :id, "--cpus", "1"]
     vb.customize ["modifyvm", :id, "--name", "Camper"]
     vb.customize ['modifyvm', :id, '--cableconnected1', 'on']
+    vb.customize ['modifyvm', :id, "--cpuexecutioncap", '50']
   end
   #
   # View the documentation for the provider you are using for more
@@ -158,12 +160,6 @@ Vagrant.configure(2) do |config|
         shell.args = %q{/etc/sudoers.d/root_ssh_agent "Defaults    env_keep += \"SSH_AUTH_SOCK\""}
     end
 
-    # Load any local customizations from the "local-bootstrap.sh" script (if it exists)
-    # Check out the "config/local-bootstrap.sh.example" for examples
-    if File.exists?("config/local-bootstrap.sh")
-        config.vm.provision :shell, :inline => "echo '   > > > running config/local_bootstrap.sh (as vagrant)' && sudo -i -u vagrant /vagrant/config/local-bootstrap.sh"
-    end
-
     # Shell script to set up swap space for this VM
 
     if File.exists?("config/increase-swap.sh")
@@ -187,7 +183,12 @@ Vagrant.configure(2) do |config|
         config.vm.provision :shell, :name => "apt-spy2, running default apt-spy-2-bootstrap", :path => "apt-spy-2-bootstrap.sh"
     end
 
+    # Load any local customizations from the "local-bootstrap.sh" script (if it exists)
+    # Check out the "config/local-bootstrap.sh.example" for examples
+    if File.exists?("config/local-bootstrap.sh")
+        config.vm.provision :shell, :inline => "echo '   > > > running config/local_bootstrap.sh (as vagrant)' && sudo -i -u vagrant /vagrant/config/local-bootstrap.sh"
+    end
 
-
-
+# Message to display to user after 'vagrant up' completes
+    config.vm.post_up_message = "Setup of 'Camper' is now COMPLETE!\nYou can SSH into the new VM via 'vagrant ssh'"
 end
