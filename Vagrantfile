@@ -183,6 +183,14 @@ Vagrant.configure(2) do |config|
         config.vm.provision :shell, :name => "apt-spy2, running default apt-spy-2-bootstrap", :path => "apt-spy-2-bootstrap.sh"
     end
 
+    # fire off one of the tmuxinator-bootstrap.sh provisioners, either the default or our overide
+    if File.exists?("config/tmuxinator-bootstrap.sh")
+        config.vm.provision :shell, :name => "tmuxinator, running custom tmuxinator-bootstrap", :path => "config/tmuxinator-bootstrap.sh"
+    else
+        config.vm.provision :shell, :name => "tmuxinator, running default tmuxinator-bootstrap", :path => "tmuxinator-bootstrap.sh"
+    end
+
+
     # Load any local customizations from the "local-bootstrap.sh" script (if it exists)
     # Check out the "config/local-bootstrap.sh.example" for examples
     if File.exists?("config/local-bootstrap.sh")
